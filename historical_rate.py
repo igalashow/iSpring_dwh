@@ -3,6 +3,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import pymysql
+import db_auth
 
 
 def get_exchange_rate(source):
@@ -10,7 +11,7 @@ def get_exchange_rate(source):
     r = requests.get(source, timeout=5)
     return r.text
 
-def get_value(valute_id):
+def get_value_cbrf(valute_id):
     """ Возвращает значение курса валюты """
     value = soup.find('valute', {'id' : valute_id}).find('value').get_text()
     return float(value.replace(',', '.'))
@@ -20,17 +21,16 @@ def connect_to_db(func):
 
     def wrapper(*args):
         dwh = pymysql.connect(
-            host="localhost",
-            user="my_sql_user",
-            database="database_dwh",
-            passwd="qwerty"
+            host=db_auth.host,
+            user=db_auth.user,
+            database=db_auth.database,
+            passwd=db_auth.passwd
         )
         mycursor = dwh.cursor()
         query = func(args[0])
         mycursor.execute(query, args[1:])
-
         dwh.commit()
-
+        dwh.close()
     return wrapper
 
 
@@ -40,14 +40,11 @@ def insert_to(table):
     query = 'INSERT INTO ' + table + ' VALUES (%s, %s, %s, %s, %s)'
     return query
 
-
-# def insert_to(table, *args):
-#     """ Инсертит данные в таблицу """
-#     mycursor = connect_to("database_dwh", "localhost", "my_sql_user", "qwerty")
-#     query = 'INSERT INTO '+table+' VALUES (%s, %s, %s, %s, %s)'
-#     mycursor.execute(query, args)
-#     dwh.commit()
-#     return query
+@connect_to_db
+def cleaning_table(table):
+    """ Очистка таблицы """
+    query = 'TRUNCATE TABLE '+ table
+    return query
 
 currencies_id_cbrf= {
     'USD' : 'R01235',
@@ -56,29 +53,31 @@ currencies_id_cbrf= {
     }
 url = 'https://www.cbr.ru/scripts/XML_daily.asp?date_req='
 
-histor_date = date.today()
-for delta_day in range(30):
-    historic_date = histor_date - timedelta(days=delta_day)
-    str_date = historic_date.strftime('%d/%m/%Y')
-    source = url + str_date
-    raw_data = get_exchange_rate(source)
-    time.sleep(0.5)
+while True:
+    try:
+        deep = int(input('Глубина исторических данных, дней (0 - выход):'))
+        if deep == 0:
+            quit()
 
-    soup = BeautifulSoup(raw_data, 'html.parser')
+        cleaning_table('staging')
 
-    for ticker in currencies_id_cbrf:
-        value = get_value(currencies_id_cbrf[ticker])
-        print(ticker, value, historic_date)
-        insert_to('staging', ticker, "RUB", value, historic_date, "ЦБ РФ")
+        today_date = date.today()
+        for delta_day in range(deep):
+            historic_date = today_date - timedelta(days=delta_day)
+            str_date = historic_date.strftime('%d/%m/%Y')
+            source = url + str_date
+            raw_data = get_exchange_rate(source)
+            time.sleep(0.5)
 
-    #     insert = insert_to('staging', ticker, "RUB", value, historic_date, "ЦБ РФ")
-    #     # query = 'INSERT INTO staging VALUES (%s, %s, %s, %s, %s)'
-    #     # mycursor.execute(query, (ticker, "RUB", value, historic_date, "ЦБ РФ"))
-    #     # dwh.commit()
-    # print('RUB', 1.0, historic_date)
-    # insert = insert_to('staging', "RUB", "RUB", 1, historic_date, "ЦБ РФ")
-    # query = 'INSERT INTO `staging` VALUES (%s, %s, %s, %s, %s)'
-    # mycursor.execute(query, ("RUB", "RUB", 1, historic_date, "ЦБ РФ"))
-    # dwh.commit()
+            soup = BeautifulSoup(raw_data, 'html.parser')
 
-    # print(usd_float)
+            for ticker in currencies_id_cbrf:
+                value = get_value_cbrf(currencies_id_cbrf[ticker])
+                insert_to('staging', ticker, "RUB", value, historic_date, "ЦБ РФ")
+            insert_to('staging', "RUB", "RUB", 1, historic_date, "ЦБ РФ")
+            print('Добавлены данные о курсах за '+str_date)
+    except ValueError as e:
+        print('Неверный ввод!', e)
+        continue
+    except Exception as e:
+        print('Ошибка!', e)
