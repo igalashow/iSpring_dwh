@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import pymysql
 
+
 def get_exchange_rate(source):
     """ Запрос данных с API источника """
     r = requests.get(source, timeout=5)
@@ -14,17 +15,41 @@ def get_value(valute_id):
     value = soup.find('valute', {'id' : valute_id}).find('value').get_text()
     return float(value.replace(',', '.'))
 
-dwh = pymysql.connect(
-  host="localhost",
-  user="my_sql_user",
-  database="database_dwh",
-  passwd="qwerty"
-)
+def connect_to_db(func):
+    """ Соединяется с базой данных """
 
-mycursor = dwh.cursor()
+    def wrapper(*args):
+        dwh = pymysql.connect(
+            host="localhost",
+            user="my_sql_user",
+            database="database_dwh",
+            passwd="qwerty"
+        )
+        mycursor = dwh.cursor()
+        query = func(args[0])
+        mycursor.execute(query, args[1:])
+
+        dwh.commit()
+
+    return wrapper
 
 
-currencies_id = {
+@connect_to_db
+def insert_to(table):
+    """ Инсертит данные в таблицу """
+    query = 'INSERT INTO ' + table + ' VALUES (%s, %s, %s, %s, %s)'
+    return query
+
+
+# def insert_to(table, *args):
+#     """ Инсертит данные в таблицу """
+#     mycursor = connect_to("database_dwh", "localhost", "my_sql_user", "qwerty")
+#     query = 'INSERT INTO '+table+' VALUES (%s, %s, %s, %s, %s)'
+#     mycursor.execute(query, args)
+#     dwh.commit()
+#     return query
+
+currencies_id_cbrf= {
     'USD' : 'R01235',
     'EUR' : 'R01239',
     'CNY' : 'R01375',
@@ -41,15 +66,19 @@ for delta_day in range(30):
 
     soup = BeautifulSoup(raw_data, 'html.parser')
 
-    for ticker in currencies_id:
-        value = get_value(currencies_id[ticker])
+    for ticker in currencies_id_cbrf:
+        value = get_value(currencies_id_cbrf[ticker])
         print(ticker, value, historic_date)
-        query = 'INSERT INTO staging VALUES (%s, %s, %s, %s, %s)'
-        mycursor.execute(query, (ticker, "RUB", value, historic_date, "ЦБ РФ"))
-        dwh.commit()
-    print('RUB', 1.0, historic_date)
-    query = 'INSERT INTO `staging` VALUES (%s, %s, %s, %s, %s)'
-    mycursor.execute(query, ("RUB", "RUB", 1, historic_date, "ЦБ РФ"))
-    dwh.commit()
+        insert_to('staging', ticker, "RUB", value, historic_date, "ЦБ РФ")
+
+    #     insert = insert_to('staging', ticker, "RUB", value, historic_date, "ЦБ РФ")
+    #     # query = 'INSERT INTO staging VALUES (%s, %s, %s, %s, %s)'
+    #     # mycursor.execute(query, (ticker, "RUB", value, historic_date, "ЦБ РФ"))
+    #     # dwh.commit()
+    # print('RUB', 1.0, historic_date)
+    # insert = insert_to('staging', "RUB", "RUB", 1, historic_date, "ЦБ РФ")
+    # query = 'INSERT INTO `staging` VALUES (%s, %s, %s, %s, %s)'
+    # mycursor.execute(query, ("RUB", "RUB", 1, historic_date, "ЦБ РФ"))
+    # dwh.commit()
 
     # print(usd_float)
