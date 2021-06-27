@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 import pymysql
 
 def get_exchange_rate(source):
-    """ Получает данные по курсам валют """
-    r = requests.get(source, timeout=15)
+    """ Запрос данных с API источника """
+    r = requests.get(source, timeout=5)
     return r.text
 
 def get_value(valute_id):
@@ -17,7 +17,7 @@ def get_value(valute_id):
 dwh = pymysql.connect(
   host="localhost",
   user="my_sql_user",
-  database="database_dwh", #database
+  database="database_dwh",
   passwd="qwerty"
 )
 
@@ -41,15 +41,15 @@ for delta_day in range(30):
 
     soup = BeautifulSoup(raw_data, 'html.parser')
 
-    for ident in currencies_id:
-        value = get_value(currencies_id[ident])
-        print(ident, value, historic_date)
-        query = 'INSERT INTO `staging` VALUES (ident, "RUB", value, historic_date, "ЦБ РФ")'
-        mycursor.execute(query)
+    for ticker in currencies_id:
+        value = get_value(currencies_id[ticker])
+        print(ticker, value, historic_date)
+        query = 'INSERT INTO staging VALUES (%s, %s, %s, %s, %s)'
+        mycursor.execute(query, (ticker, "RUB", value, historic_date, "ЦБ РФ"))
         dwh.commit()
     print('RUB', 1.0, historic_date)
-    query = 'INSERT INTO `staging` VALUES ("RUB", "RUB", 1, historic_date, "ЦБ РФ")'
-    mycursor.execute(query)
+    query = 'INSERT INTO `staging` VALUES (%s, %s, %s, %s, %s)'
+    mycursor.execute(query, ("RUB", "RUB", 1, historic_date, "ЦБ РФ"))
     dwh.commit()
 
     # print(usd_float)
