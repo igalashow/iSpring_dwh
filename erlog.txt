@@ -78,3 +78,9 @@ view3-converter.py
 Дата 2021-06-28 11:06
 view3-converter.py
 not all arguments converted during string formatting
+Дата 2021-06-28 22:21
+stage-to-core.py
+Произошло непредвиденное!
+Дата 2021-06-28 22:21
+stage-to-core.py
+name 'insert_to_table' is not defined

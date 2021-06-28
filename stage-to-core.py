@@ -34,7 +34,11 @@ def connect_to_db(func):
         )
         mycursor = dwh.cursor()
         query = func(args[0])
-        mycursor.execute(query, args[1:])
+        if len(args) <= 1:
+            arguments = ''
+        else:
+            arguments = '%s, ' * (len(args) - 2) + '%s)'
+        mycursor.execute(query+arguments, args[1:])
         dwh.commit()
         dwh.close()
         return mycursor.fetchall()
@@ -56,9 +60,9 @@ def get_table(table):
 
 
 @connect_to_db
-def insert_to_table(table):
+def insert_to(table):
     """ Инсертит данные в таблицу """
-    query = 'INSERT INTO '+table+' VALUES (%s, %s, %s, %s, %s)'
+    query = 'INSERT INTO '+table+' VALUES ('
     return query
 
 try:
@@ -77,7 +81,7 @@ try:
         date_mark = row[3]
         source_id = [key for key, value in source.items() if row[4] in value]
 
-        insert_to_table('core', curr_id1[0], curr_id2[0], ex_rate, date_mark, source_id)
+        insert_to('core', curr_id1[0], curr_id2[0], ex_rate, date_mark, source_id)
 
         cleaning_table('staging')
 

@@ -40,16 +40,21 @@ def connect_to_db(func):
         )
         mycursor = dwh.cursor()
         query = func(args[0])
-        mycursor.execute(query, args[1:])
+        if len(args) <= 1:
+            arguments = ''
+        else:
+            arguments = '%s, ' * (len(args) - 2) + '%s)'
+        mycursor.execute(query+arguments, args[1:])
         dwh.commit()
         dwh.close()
+        return mycursor.fetchall()
     return wrapper
 
 
 @connect_to_db
 def insert_to(table):
     """ Инсертит данные в таблицу """
-    query = 'INSERT INTO ' + table + ' VALUES (%s, %s, %s, %s, %s)'
+    query = 'INSERT INTO '+table+' VALUES ('
     return query
 
 
