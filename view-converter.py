@@ -55,6 +55,18 @@ def get_dict(table):
     return dict_
 
 
+def make_all_to_all(day_list):
+    """ Пересчитывает курсы все-ко-всем """
+    curr_list = [row[0] for row in day_list]
+    all_to_all = []
+    for curr in curr_list:
+        mult = [row[2] for row in day_list if row[0] == curr]
+        for row in day_list:
+            all_to_all.append((row[0], curr, row[2]/mult[0], row[3], row[4]))
+    return all_to_all
+
+
+
 # try:
 # Наполняем справочники
 currencies = get_dict('currencies')
@@ -67,18 +79,45 @@ core = get_table('core')
 print(core)
 
 
-# Формируем view1
+# # Формируем datamart1
+# for row in core:
+#     curr_tuple1 = currencies[row[0]]
+#     curr_name1 = curr_tuple1[3]
+#     ticker1 = curr_tuple1[0]
+#     curr_tuple2 = currencies[row[1]]
+#     ticker2 = curr_tuple2[0]
+#     curr_name2 = curr_tuple2[3]
+#     ex_rate = row[2]
+#     date_rate = row[3]
+#     source_name = source[row[4]]
+#     insert_to('datamart1', curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name)
+
+
+# Формируем дневные листы котировок для пересчета все-ко-всем, пересчитываем и собираем в общий словарь all_to_all
+all_to_all = []
+reference_date = core[0][3]
+day_list = []
 for row in core:
-    curr_tuple1 = currencies[row[0]]
-    curr_name1 = curr_tuple1[3]
-    ticker1 = curr_tuple1[0]
-    curr_tuple2 = currencies[row[1]]
-    ticker2 = curr_tuple2[0]
-    curr_name2 = curr_tuple2[3]
-    ex_rate = row[2]
-    date_rate = row[3]
-    source_name = source[row[4]]
-    insert_to('datamart1', curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name)
+    if row[3] == reference_date:
+        day_list.append(row)
+    else:
+        all_to_all = all_to_all + make_all_to_all(day_list)
+        reference_date = row[3]
+        day_list = []
+        day_list.append(row)
+
+for row in all_to_all:
+    if row[1] == '840':  # код USD
+        curr_tuple1 = currencies[row[0]]
+        curr_name1 = curr_tuple1[1]
+        ticker1 = curr_tuple1[0]
+        curr_tuple2 = currencies[row[1]]
+        ticker2 = curr_tuple2[0]
+        curr_name2 = curr_tuple2[1]
+        ex_rate = row[2]
+        date_rate = row[3]
+        source_name = source[row[4]]
+        insert_to('datamart2', curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name)
 
 
 # except Exception as e:
