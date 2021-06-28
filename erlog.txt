@@ -1,0 +1,80 @@
+Дата 2021-06-27 23:24
+Ошибка соединения. Проверьте подключение к Интернет.
+Дата 2021-06-27 23:24
+HTTPSConnectionPool(host='www.cbr.ru', port=443): Max retries exceeded with url: /scripts/XML_daily.asp?date_req=27/06/2021 (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x0000000003696AC0>: Failed to establish a new connection: [Errno 11004] getaddrinfo failed'))
+Дата 2021-06-27 23:49
+Произошло непредвиденное!
+Дата 2021-06-27 23:49
+(1292, "Incorrect date value: '27/06/2021' for column 'date' at row 1")
+Дата 2021-06-28 09:20
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 09:20
+view3-converter.py
+'840'
+Дата 2021-06-28 09:20
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 09:20
+view3-converter.py
+'840'
+Дата 2021-06-28 09:27
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 09:27
+view3-converter.py
+'840'
+Дата 2021-06-28 09:33
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 09:33
+view3-converter.py
+name 'insert_to_table' is not defined
+Дата 2021-06-28 09:34
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 09:34
+view3-converter.py
+name 'insert_to_table' is not defined
+Дата 2021-06-28 09:34
+stage-to-core.py
+Произошло непредвиденное!
+Дата 2021-06-28 09:34
+stage-to-core.py
+'USD'
+Дата 2021-06-28 09:34
+stage-to-core.py
+Произошло непредвиденное!
+Дата 2021-06-28 09:34
+stage-to-core.py
+'USD'
+Дата 2021-06-28 09:37
+stage-to-core.py
+Произошло непредвиденное!
+Дата 2021-06-28 09:37
+stage-to-core.py
+'USD'
+Дата 2021-06-28 10:03
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 10:03
+view3-converter.py
+name 'insert_to_table' is not defined
+Дата 2021-06-28 10:09
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 10:09
+view3-converter.py
+name 'insert_to_table' is not defined
+Дата 2021-06-28 11:06
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 11:06
+view3-converter.py
+not all arguments converted during string formatting
+Дата 2021-06-28 11:06
+view3-converter.py
+Произошло непредвиденное!
+Дата 2021-06-28 11:06
+view3-converter.py
+not all arguments converted during string formatting

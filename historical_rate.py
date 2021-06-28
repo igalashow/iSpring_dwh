@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -6,15 +6,27 @@ import pymysql
 import db_auth
 
 
+def erlog(*args):
+    """ Логирование ошибок """
+    log = open("erlog.txt", 'a', encoding='windows-1251')
+    print('Дата '+str(datetime.today())[:-10], file=log)
+    print('historical_rate.py', file=log)
+    print(*args, file=log)
+    log.close()
+    print(*args)
+
+
 def get_exchange_rate(source):
     """ Запрос данных с API источника """
     r = requests.get(source, timeout=5)
     return r.text
 
+
 def get_value_cbrf(valute_id):
     """ Возвращает значение курса валюты """
-    value = soup.find('valute', {'id' : valute_id}).find('value').get_text()
+    value = soup.find('valute', {'id': valute_id}).find('value').get_text()
     return float(value.replace(',', '.'))
+
 
 def connect_to_db(func):
     """ Соединяется с базой данных """
@@ -40,16 +52,18 @@ def insert_to(table):
     query = 'INSERT INTO ' + table + ' VALUES (%s, %s, %s, %s, %s)'
     return query
 
+
 @connect_to_db
 def cleaning_table(table):
     """ Очистка таблицы """
-    query = 'TRUNCATE TABLE '+ table
+    query = 'TRUNCATE TABLE ' + table
     return query
 
-currencies_id_cbrf= {
-    'USD' : 'R01235',
-    'EUR' : 'R01239',
-    'CNY' : 'R01375',
+
+currencies_id_cbrf = {
+    'USD': 'R01235',
+    'EUR': 'R01239',
+    'CNY': 'R01375',
     }
 url = 'https://www.cbr.ru/scripts/XML_daily.asp?date_req='
 
@@ -66,7 +80,21 @@ while True:
             historic_date = today_date - timedelta(days=delta_day)
             str_date = historic_date.strftime('%d/%m/%Y')
             source = url + str_date
-            raw_data = get_exchange_rate(source)
+            try:
+                raw_data = get_exchange_rate(source)
+            except requests.ConnectionError as e:
+                erlog("Ошибка соединения. Проверьте подключение к Интернет.")
+                erlog(str(e))
+                quit()
+            except requests.Timeout as e:
+                erlog("Timeout error.")
+                erlog(str(e))
+                quit()
+            except requests.RequestException as e:
+                erlog("General Error")
+                erlog(str(e))
+                quit()
+
             time.sleep(0.5)
 
             soup = BeautifulSoup(raw_data, 'html.parser')
@@ -80,4 +108,6 @@ while True:
         print('Неверный ввод!', e)
         continue
     except Exception as e:
-        print('Ошибка!', e)
+        erlog("Произошло непредвиденное!")
+        erlog(str(e))
+        quit()
