@@ -1,0 +1,16 @@
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('american dollar', 'USD', 'USD', 'american dollar', 1, '2021-06-28', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('euro', 'EUR', 'USD', 'american dollar', 1.1943, '2021-06-28', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('chinese yuan', 'CNY', 'USD', 'american dollar', 0.154922, '2021-06-28', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('russian ruble', 'RUB', 'USD', 'american dollar', 0.0138563, '2021-06-28', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('american dollar', 'USD', 'USD', 'american dollar', 1, '2021-06-27', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('euro', 'EUR', 'USD', 'american dollar', 1.1943, '2021-06-27', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('chinese yuan', 'CNY', 'USD', 'american dollar', 0.154922, '2021-06-27', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('russian ruble', 'RUB', 'USD', 'american dollar', 0.0138563, '2021-06-27', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('american dollar', 'USD', 'USD', 'american dollar', 1, '2021-06-26', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('euro', 'EUR', 'USD', 'american dollar', 1.1943, '2021-06-26', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('chinese yuan', 'CNY', 'USD', 'american dollar', 0.154922, '2021-06-26', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('russian ruble', 'RUB', 'USD', 'american dollar', 0.0138563, '2021-06-26', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('american dollar', 'USD', 'USD', 'american dollar', 1, '2021-06-25', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('euro', 'EUR', 'USD', 'american dollar', 1.1936, '2021-06-25', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('chinese yuan', 'CNY', 'USD', 'american dollar', 0.154485, '2021-06-25', 'ЦБ РФ');
+INSERT INTO database_dwh.datamart2 (curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name) VALUES ('russian ruble', 'RUB', 'USD', 'american dollar', 0.0138263, '2021-06-25', 'ЦБ РФ');

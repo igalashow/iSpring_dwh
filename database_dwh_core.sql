@@ -1,0 +1,16 @@
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('840', '643', 72.1694, '2021-06-28', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('978', '643', 86.1919, '2021-06-28', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('156', '643', 11.1806, '2021-06-28', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('643', '643', 1, '2021-06-28', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('840', '643', 72.1694, '2021-06-27', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('978', '643', 86.1919, '2021-06-27', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('156', '643', 11.1806, '2021-06-27', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('643', '643', 1, '2021-06-27', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('840', '643', 72.1694, '2021-06-26', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('978', '643', 86.1919, '2021-06-26', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('156', '643', 11.1806, '2021-06-26', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('643', '643', 1, '2021-06-26', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('840', '643', 72.326, '2021-06-25', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('978', '643', 86.3283, '2021-06-25', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('156', '643', 11.1733, '2021-06-25', '001');
+INSERT INTO database_dwh.core (curr_id_1, curr_id_2, exchange_rate, date, source_id) VALUES ('643', '643', 1, '2021-06-25', '001');

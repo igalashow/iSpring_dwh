@@ -1,0 +1,1 @@
+INSERT INTO database_dwh.source (source_id, source_name) VALUES ('001', 'ЦБ РФ');

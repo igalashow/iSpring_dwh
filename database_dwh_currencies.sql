@@ -1,0 +1,4 @@
+INSERT INTO database_dwh.currencies (curr_id, ticker, curr_name_en, curr_name_ger, curr_name_rus, curr_name_chin) VALUES ('840', 'USD', 'american dollar', 'Amerikanischer Dollar', 'американский доллар', '美元');
+INSERT INTO database_dwh.currencies (curr_id, ticker, curr_name_en, curr_name_ger, curr_name_rus, curr_name_chin) VALUES ('643', 'RUB', 'russian ruble', 'Russischer Rubel', 'российский рубль', '俄罗斯卢布');
+INSERT INTO database_dwh.currencies (curr_id, ticker, curr_name_en, curr_name_ger, curr_name_rus, curr_name_chin) VALUES ('156', 'CNY', 'chinese yuan', 'Chinesischer Yuan', 'китайский юань', '中国新年');
+INSERT INTO database_dwh.currencies (curr_id, ticker, curr_name_en, curr_name_ger, curr_name_rus, curr_name_chin) VALUES ('978', 'EUR', 'euro', 'Euro', 'евро', '欧元');

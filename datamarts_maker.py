@@ -71,64 +71,64 @@ def insert_to(table):
 
 
 
-# try:
-# Наполняем справочники
-currencies = get_dict('currencies')
-source = get_dict('source')
+try:
+    # Наполняем справочники
+    currencies = get_dict('currencies')
+    source = get_dict('source')
 
-# Получаем данные из core
-core = get_table('core')
-
-
-# Формируем datamart1
-for row in core:
-    curr_tuple1 = currencies[row[0]]
-    curr_name1 = curr_tuple1[3]
-    ticker1 = curr_tuple1[0]
-    curr_tuple2 = currencies[row[1]]
-    ticker2 = curr_tuple2[0]
-    curr_name2 = curr_tuple2[3]
-    ex_rate = row[2]
-    date_rate = row[3]
-    source_name = source[row[4]]
-    insert_to('datamart1', curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name)
+    # Получаем данные из core
+    core = get_table('core')
 
 
-# Формируем дневные листы котировок для пересчета все-ко-всем, пересчитываем и собираем в общий словарь all_to_all
-all_to_all = []
-reference_date = core[0][3]
-day_list = []
-for roww in core:
-    if roww[3] == reference_date:
-        day_list.append(roww)
-    else:
-        all_to_all = all_to_all + make_all_to_all(day_list)
-        reference_date = roww[3]
-        day_list = []
-        day_list.append(roww)
-all_to_all = all_to_all + make_all_to_all(day_list)
-
-# Формируем таблицу all_to_all
-for row in all_to_all:
-    insert_to('all_to_all', row[0], row[1], row[2], row[3], row[4])
-
-
-# Формируем datamart2
-for row in all_to_all:
-    if row[1] == '840':  # код USD
+    # Формируем datamart1
+    for row in core:
         curr_tuple1 = currencies[row[0]]
-        curr_name1 = curr_tuple1[1]
+        curr_name1 = curr_tuple1[3]
         ticker1 = curr_tuple1[0]
         curr_tuple2 = currencies[row[1]]
         ticker2 = curr_tuple2[0]
-        curr_name2 = curr_tuple2[1]
+        curr_name2 = curr_tuple2[3]
         ex_rate = row[2]
         date_rate = row[3]
         source_name = source[row[4]]
-        insert_to('datamart2', curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name)
+        insert_to('datamart1', curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name)
 
 
-# except Exception as e:
-#     erlog("Произошло непредвиденное!")
-#     erlog(str(e))
-#     quit()
+    # Формируем дневные листы котировок для пересчета все-ко-всем, пересчитываем и собираем в общий словарь all_to_all
+    all_to_all = []
+    reference_date = core[0][3]
+    day_list = []
+    for roww in core:
+        if roww[3] == reference_date:
+            day_list.append(roww)
+        else:
+            all_to_all = all_to_all + make_all_to_all(day_list)
+            reference_date = roww[3]
+            day_list = []
+            day_list.append(roww)
+    all_to_all = all_to_all + make_all_to_all(day_list)
+
+    # Формируем таблицу all_to_all
+    for row in all_to_all:
+        insert_to('all_to_all', row[0], row[1], row[2], row[3], row[4])
+
+
+    # Формируем datamart2
+    for row in all_to_all:
+        if row[1] == '840':  # код USD
+            curr_tuple1 = currencies[row[0]]
+            curr_name1 = curr_tuple1[1]
+            ticker1 = curr_tuple1[0]
+            curr_tuple2 = currencies[row[1]]
+            ticker2 = curr_tuple2[0]
+            curr_name2 = curr_tuple2[1]
+            ex_rate = row[2]
+            date_rate = row[3]
+            source_name = source[row[4]]
+            insert_to('datamart2', curr_name1, ticker1, ticker2, curr_name2, ex_rate, date_rate, source_name)
+
+
+except Exception as e:
+    erlog("Произошло непредвиденное!")
+    erlog(str(e))
+    quit()
